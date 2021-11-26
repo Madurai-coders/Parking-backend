@@ -2,7 +2,7 @@ from django.core.exceptions import FieldError
 from django.db import models
 from django.db.models import fields
 from rest_framework import serializers
-from .models import BusinessPartner, Payment, Slots, User, Wing
+from .models import Booking, BusinessPartner, Payment, Slots, User, Wing
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -33,6 +33,12 @@ class PaymentSerializer(serializers.ModelSerializer):
         fields = ['id', 'userId', 'accountNumber', 'paymentId',
                   'paymentType', 'paymentDateTime']
     
+
+class BookingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Booking
+        fields = ['userId', 'bookingId', 'date', 'startFrom', 'endTo', 'plan']
+
 
 class WingSerializer(serializers.ModelSerializer):
 
