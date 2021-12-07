@@ -29,12 +29,15 @@ class AdminCheckAPI(generics.ListAPIView):
 
     def get_queryset(self):
         queryset = self.queryset
-        query_set = queryset.filter(id=self.request.user.id)
+        query_set = queryset.all()#filter(id=self.request.user.id)
         return query_set
 
 
 
 
+class CreatePayment(viewsets.ModelViewSet):
+    queryset = Payment.objects.all()
+    serializer_class = PaymentSerializer
 
 class CreateBusinessPartner(viewsets.ModelViewSet):
      permission_classes=[IsAuthenticated]
