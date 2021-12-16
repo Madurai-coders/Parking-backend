@@ -19,6 +19,11 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 
+
+
+
+
+
 class AdminCheckSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -35,7 +40,7 @@ class BusinessSerializer(serializers.ModelSerializer):
     class Meta:
         model = BusinessPartner
         fields = ['id','uId', 'accountNumber', 'userName',
-                  'lastName', 'email', 'accountHolder']
+                  'lastName', 'email']
 
 
 
@@ -62,6 +67,8 @@ class SlotSerializer(serializers.ModelSerializer):
     class Meta:
         model = Slots
         fields = ('id','slotId','slotStatus','wingId','wing')
+
+
 class wingSlotSerializer(serializers.ModelSerializer):
     slots = SlotSerializer(many=True, read_only=True)
     class Meta:
@@ -69,13 +76,13 @@ class wingSlotSerializer(serializers.ModelSerializer):
         fields = '__all__'
         depth = 1
 
+
 class BookingSerializer(serializers.ModelSerializer):
     User = BusinessSerializer(source='userId',read_only=True)
-    Slots = SlotSerializer(source='slot_connect',read_only=True)
+    slots = SlotSerializer(source='slot_connect',read_only=True)
     class Meta:
         model = Booking
-        fields = ['id','userId', 'bookingId', 'date', 'startFrom', 'endTo', 'plan','slotid','charge','User','Slots']
-
+        fields = ['id','userId', 'bookingId', 'date', 'startFrom', 'endTo', 'plan','slotid','charge','slot_connect','User','slots']
 
 class BusinessGroup_Serializer(serializers.ModelSerializer):
     payment_partner = PaymentSerializer(many=True, read_only=True)
@@ -84,6 +91,12 @@ class BusinessGroup_Serializer(serializers.ModelSerializer):
     class Meta:
         model = BusinessPartner
         fields = ['id','uId', 'accountNumber', 'userName',
-                  'lastName', 'email', 'accountHolder','payment_partner','booking_partner']
+                  'lastName', 'email','payment_partner','booking_partner']
         depth = 1
 
+
+class GetUserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+    class Meta:
+        model = User
+        fields = ('id','username','useraccount','password')

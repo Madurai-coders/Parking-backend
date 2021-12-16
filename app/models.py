@@ -11,7 +11,7 @@ class BusinessPartner(models.Model):
     userName = models.CharField(max_length=120)
     lastName = models.CharField(max_length=120)
     email = models.EmailField()
-    accountHolder = models.OneToOneField(User, blank=True, null=True, on_delete=models.CASCADE )
+    accountHolder = models.OneToOneField(User, blank=True, null=True, on_delete=models.CASCADE ,related_name='useraccount')
     BusinessPartner_created = models.DateTimeField(auto_now=True)
     def __str__(self):
         return str(self.userName)
@@ -47,7 +47,7 @@ class Wing(models.Model): #slot a,b,c
 class Slots(models.Model):
     slotId = models.CharField(max_length=100)
     slotStatus = models.BooleanField()
-    wingId = models.ForeignKey(Wing, default=1,related_name='slots', on_delete=models.CASCADE )
+    wingId = models.ForeignKey(Wing, related_name='slots', on_delete=models.CASCADE )
     date_auto = models.DateTimeField(auto_now=True)
 
     def __str__(self):
@@ -55,15 +55,15 @@ class Slots(models.Model):
 
 
 class Booking(models.Model):
-    userId = models.ForeignKey(BusinessPartner, default=1, on_delete=models.CASCADE,related_name='booking_partner')
+    userId = models.ForeignKey(BusinessPartner, on_delete=models.CASCADE,related_name='booking_partner')
     bookingId = models.CharField(max_length=120)
     date_auto = models.DateTimeField(auto_now=True)
     date = models.CharField(max_length=120)
     startFrom = models.CharField(max_length=120)
     endTo = models.CharField(max_length=120)
     slotid = models.CharField(max_length=120)
-    slot_connect = models.ForeignKey(Slots, default=1, on_delete=models.CASCADE,related_name='slots')
-    plan = models.CharField(max_length=120)   #plan weekly, monthly, quaterly, yearly
+    slot_connect = models.ForeignKey(Slots,on_delete=models.CASCADE,related_name='slots')
+    plan = models.CharField(max_length=120)   
     charge = models.CharField(max_length=120)  
 
     def __str__(self):
