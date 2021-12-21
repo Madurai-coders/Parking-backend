@@ -63,7 +63,7 @@ class Booking(models.Model):
     endTo = models.CharField(max_length=120)
     slotid = models.CharField(max_length=120)
     slot_connect = models.ForeignKey(Slots,on_delete=models.CASCADE,related_name='slots')
-    plan = models.CharField(max_length=120)   
+    plan = models.CharField(max_length=120)   #plan weekly, monthly, quaterly, yearly
     charge = models.CharField(max_length=120)  
 
     def __str__(self):

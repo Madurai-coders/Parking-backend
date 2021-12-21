@@ -152,7 +152,7 @@ class GetBookingByDate(viewsets.ModelViewSet):
         from_date = self.request.query_params.get('from')
         to_date = self.request.query_params.get('to')
         print(from_date)
-        query_set = queryset.filter(date__range=[from_date,to_date])
+        query_set = queryset.filter(date__range=[from_date,to_date]).order_by('-date_auto')
         return query_set
 
 

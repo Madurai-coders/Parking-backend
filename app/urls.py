@@ -16,7 +16,6 @@ router.register('GetBusinessPartner', GetBusinessPartner, basename='GetBusinessP
 
 
 urlpatterns = [
-    #path('test', test),
     path('admins/', AdminCheckAPI.as_view(), name='admins'),
     path('Check_BusinessPartner', Check_BusinessPartner.as_view(), name='Check_BusinessPartner'),
     path('GetPayment', GetPayment.as_view(), name='GetPayment'),
