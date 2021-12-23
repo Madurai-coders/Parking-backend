@@ -1,6 +1,6 @@
 from django.db import models
 from django.db.models.query import QuerySet
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated ,IsAdminUser
@@ -128,7 +128,8 @@ class GetPayment(generics.ListAPIView):
 class CreateBooking(viewsets.ModelViewSet):
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
-
+    filter_backends = [filters.OrderingFilter]
+    ordering = ('-date_auto')
 
 class GetBooking(viewsets.ModelViewSet):
     queryset = Booking.objects.all()
@@ -139,14 +140,15 @@ class GetBooking(viewsets.ModelViewSet):
         from_date = self.request.query_params.get('from')
         to_date = self.request.query_params.get('to')
         print(from_date)
-        query_set = queryset.filter(endTo__range=[from_date,to_date])
+        query_set = queryset.filter(endTo__range=[from_date,to_date]).order_by('-date_auto')
         return query_set
 
 
 class GetBookingByDate(viewsets.ModelViewSet):
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
-
+    filter_backends = [filters.OrderingFilter]
+    ordering = ('-date_auto')
     def get_queryset(self):
         queryset = self.queryset
         from_date = self.request.query_params.get('from')
