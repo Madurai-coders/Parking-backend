@@ -14,8 +14,8 @@
 
         .bookinginvoice_container {
             margin-top: 2vh;
-            margin-left: 10vw;
-            margin-right: 10vh;
+            margin-left: 1vw;
+            margin-right: 1vh;
             height: 100vh;
         }
 
@@ -39,7 +39,7 @@
 
         .bookinginvoice_text_invno,
         .bookinginvoice_text_invdate {
-            font-size: 9.1px;
+            font-size: 8px;
             line-height: 11px;
             font-weight: normal;
             color: #5b5757;
@@ -244,13 +244,12 @@
 </head>
 
 <body>
-    <div class="bookinginvoice_container flex-grow-1 px-3 pt-1 mb-3 ">
+    <div class="bookinginvoice_container flex-grow-1 px-0 pt-1 mb-3 ">
         <div class="bookinginvoice_topsection row">
-            <div class="col-8"></div>
-            <div class="col-4">
+            <div class="col-7"></div>
+            <div class="col-5">
                 <div class="bookinginvoice_text_binv mb-3">Booking Invoice</div>
                 <div class="bookinginvoice_text_invno mb-1">
-                    Invoice no: 1
                 </div>
                 <div class="bookinginvoice_text_invdate">
                     Invoice Date:
@@ -278,13 +277,13 @@
                     <tr class="bookinginvoice_table_body">
                         <td>{{ user }}</td>
                         <td>{{ accountNumber }}</td>
-                        <td>1234</td>
-                        <td>21/06/2021</td>
+                        <td>{{paymentId}}</td>
+                        <td>{{invoiceDate</td>
                         <td>{{ amount }}</td>
                     </tr>
                 </table>
                 <div class="bookinginvoice_total">
-                    200$
+                    {{ amount }}
                 </div>
             </div>
                 <div class="bookinginvoice_bottom p-2 mb-1">                   

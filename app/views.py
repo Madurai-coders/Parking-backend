@@ -35,37 +35,30 @@ def SlotCount(request):
 @api_view(['GET', 'POST'])
 @permission_classes([AllowAny])
 def send_gmail(request):
-    data = {
-        # "to":"kamalpandi123@gmail.com",
-        "invoiceDate": "payment_invoice.paymentData.paymentDate",
-        "user": "payment_invoice.User.userName",
-        "accountNumber": "payment_invoice.User.accountNumber",
-        "paymentId": "payment_invoice.paymentId",
-        "amount": "payment_invoice.amount"
-    }
+    print(request.data["to"])
     messageSent = False
     if request.method == "POST":
 
         subject = request.POST.get('subject')
         message = request.POST.get('message')
         from_mail = settings.EMAIL_HOST_USER  # settings.py
-        to_mail = request.POST.get('to')  # to must be posted in postman
+        to_mail = request.POST.get(request.data["to"])  # to must be posted in postman
 
         msg_html = loader.render_to_string('index.html', {
 
-            'to': to_mail,
-            'invoiceDate': data["invoiceDate"],
-            'user': data["user"],
-            'accountNumber': data["accountNumber"],
-            'paymentId': data["paymentId"],
-            'amount': data["amount"],
+            'to': request.data["to"],
+            'invoiceDate': request.data["invoiceDate"],
+            'user': request.data["user"],
+            'accountNumber': request.data["accountNumber"],
+            'paymentId': request.data["paymentId"],
+            'amount':request.data["amount"],
         })
 
         send_mail(
             subject,
             message,
             from_mail,
-            [to_mail],
+            [request.data["to"]],
             fail_silently=False,
             html_message=msg_html,
         )
