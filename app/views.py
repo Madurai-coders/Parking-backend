@@ -70,6 +70,50 @@ def send_gmail(request):
         return Response({"sent": messageSent})
 
 
+@api_view(['GET', 'POST'])
+@permission_classes([AllowAny])
+def send_gmail_booking(request):
+    print(request.data["to"])
+    messageSent = False
+    if request.method == "POST":
+
+        subject = request.POST.get('subject')
+        message = request.POST.get('message')
+        from_mail = settings.EMAIL_HOST_USER  # settings.py
+        to_mail = request.POST.get(request.data["to"])  # to must be posted in postman
+
+        msg_html = loader.render_to_string('email.html', {
+
+            'to': request.data["to"],
+            'invoiceDate': request.data["invoiceDate"],
+            'user': request.data["user"],
+            'accountNumber': request.data["accountNumber"],
+            'bookingId': request.data["bookingId"],
+            'amount':request.data["amount"],
+            'startFrom':request.data["startFrom"],
+            'endTo':request.data["endTo"],
+            'wing':request.data["wing"],
+            'slot':request.data['slot'],
+            'plan':request.data["plan"],
+            'id':request.data["id"],
+        })
+
+        send_mail(
+            subject,
+            message,
+            from_mail,
+            [request.data["to"]],
+            fail_silently=False,
+            html_message=msg_html,
+        )
+        messageSent = True
+
+        return Response({"sent": messageSent})
+
+    else:
+        return Response({"sent": messageSent})
+
+
 class UserCreateAPIView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
