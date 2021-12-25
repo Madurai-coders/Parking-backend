@@ -1,4 +1,4 @@
-from .views import send_gmail, send_gmail_booking, UserLogin,GetUserAccount, GetBookingByDate,SlotCount,AdminCheckAPI,GetBooking,Booked_slots,BusinessPartner_Group,GetBusinessPartner, test,Inactiveslots, GetPayment,GetWing,CreateSlots,CreateWing, CreatePayment,Check_BusinessPartner, CreateBusinessPartner,UserCreateAPIView, CreateBooking
+from .views import send_gmail, send_gmail_booking,CreateOnlinePayment, UserLogin,GetUserAccount, GetBookingByDate,SlotCount,AdminCheckAPI,GetBooking,Booked_slots,BusinessPartner_Group,GetBusinessPartner, test,Inactiveslots, GetPayment,GetWing,CreateSlots,CreateWing, CreatePayment,Check_BusinessPartner, CreateBusinessPartner,UserCreateAPIView, CreateBooking
 from rest_framework.routers import DefaultRouter
 from django.urls import path, include
 
@@ -27,6 +27,7 @@ urlpatterns = [
     path('register/', UserCreateAPIView.as_view(), name='register'),
     path('send_mail/', send_gmail, name="send_mail"),
     path('send_mail_booking/', send_gmail_booking, name="send_mail_booking"),
+    path('CreateOnlinePayment/4ebd0208-8328-5d69-8c44-ec50939c0967/', CreateOnlinePayment, name="CreateOnlinePayment"),
     path('', include(router.urls)),
 
 ]

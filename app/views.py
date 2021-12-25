@@ -9,6 +9,7 @@ from .models import Booking, BusinessPartner, Payment, User, Slots, Wing
 from .serializers import GetUserSerializer, PaymentSerializer, BusinessGroup_Serializer, UserSerializer, wingSlotSerializer, SlotSerializer, BusinessSerializer, BookingSerializer, AdminCheckSerializer
 from rest_framework import filters
 from .pagination import SmallSetPagination, tenSetPagination, fourSetPagination
+from rest_framework import status
 
 from django.core.mail import send_mail
 from django.conf import settings
@@ -93,7 +94,7 @@ def send_gmail_booking(request):
             'startFrom':request.data["startFrom"],
             'endTo':request.data["endTo"],
             'wing':request.data["wing"],
-            'slot':request.data['slot'],
+            'slot':request.data["slot"],
             'plan':request.data["plan"],
             'id':request.data["id"],
         })
@@ -112,6 +113,8 @@ def send_gmail_booking(request):
 
     else:
         return Response({"sent": messageSent})
+
+
 
 
 class UserCreateAPIView(generics.CreateAPIView):
@@ -145,16 +148,18 @@ class AdminCheckAPI(generics.ListAPIView):
 class CreatePayment(viewsets.ModelViewSet):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
+    permission_classes = [IsAdminUser]
+
 
 
 class CreateBusinessPartner(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminUser]
     queryset = BusinessPartner.objects.all()
     serializer_class = BusinessSerializer
 
 
 class GetBusinessPartner(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminUser]
     queryset = BusinessPartner.objects.all()
     serializer_class = BusinessGroup_Serializer
     pagination_class = tenSetPagination
@@ -163,7 +168,7 @@ class GetBusinessPartner(viewsets.ModelViewSet):
 class Check_BusinessPartner(generics.ListAPIView):
     queryset = BusinessPartner.objects.all()
     serializer_class = BusinessSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminUser]
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['userName']
     ordering = ('-BusinessPartner_created')
@@ -173,7 +178,7 @@ class Check_BusinessPartner(generics.ListAPIView):
 class BusinessPartner_Group(viewsets.ModelViewSet):
     queryset = BusinessPartner.objects.all()
     serializer_class = BusinessGroup_Serializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminUser]
     filter_backends = [filters.SearchFilter]
     search_fields = ['userName']
 
@@ -201,12 +206,27 @@ class CreatePayment(viewsets.ModelViewSet):
     lookup_field = 'id'
     filter_backends = [filters.OrderingFilter]
     ordering = ('-paymentDate')
+    permission_classes=[IsAdminUser]
+
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def CreateOnlinePayment(request):
+    if request.method == 'POST':
+        if request.data["secretKey"]=='9401f9e0-6596-11ec-bd15-8d09a4545895':
+            serializer = PaymentSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 class GetPayment(generics.ListAPIView):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminUser]
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['paymentId', 'userId__userName', ]
     ordering = ('-paymentDate')
@@ -218,11 +238,15 @@ class CreateBooking(viewsets.ModelViewSet):
     serializer_class = BookingSerializer
     filter_backends = [filters.OrderingFilter]
     ordering = ('-date_auto')
+    permission_classes = [IsAdminUser]
+
 
 
 class GetBooking(viewsets.ModelViewSet):
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
+    permission_classes = [IsAdminUser]
+
 
     def get_queryset(self):
         queryset = self.queryset
@@ -239,6 +263,8 @@ class GetBookingByDate(viewsets.ModelViewSet):
     serializer_class = BookingSerializer
     filter_backends = [filters.OrderingFilter]
     ordering = ('-date_auto')
+    permission_classes = [IsAdminUser]
+
 
     def get_queryset(self):
         queryset = self.queryset
@@ -253,17 +279,19 @@ class GetBookingByDate(viewsets.ModelViewSet):
 class CreateWing(viewsets.ModelViewSet):
     queryset = Wing.objects.all()
     serializer_class = wingSlotSerializer
+    permission_classes = [IsAdminUser]
 
 
 class CreateSlots(viewsets.ModelViewSet):
     queryset = Slots.objects.all()
     serializer_class = SlotSerializer
+    permission_classes = [IsAdminUser]
 
 
 class GetWing(generics.ListAPIView):
     queryset = Wing.objects.all()
     serializer_class = wingSlotSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminUser]
     filter_backends = [filters.SearchFilter]
     search_fields = ['wingName']
 
@@ -282,6 +310,8 @@ class Inactiveslots(viewsets.ModelViewSet):
 class Booked_slots(generics.ListAPIView):
     queryset = Slots.objects.all()
     serializer_class = SlotSerializer
+    permission_classes = [IsAdminUser]
+
 
     def get_queryset(self):
         queryset = self.queryset
