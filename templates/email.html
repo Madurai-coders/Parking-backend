@@ -5,19 +5,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Templates</title>
-
+    <title>Document</title>
     <style>
-        body {
-            font-family: sans-serif;
-            
-        }
-
         .bookinginvoice_container {
             margin-top: 2vh;
             margin-left: 1vw;
             margin-right: 1vh;
-
         }
 
         .bookinginvoice_flex_col {
@@ -39,11 +32,11 @@
             color: rgba(0, 0, 0, 0.62);
         }
 
-        .bookinginvoice_text_invno,
-        .bookinginvoice_text_invdate {
+        .bookinginvoice_text_invdate,
+        .bookinginvoice_text_invno {
             font-size: 8px;
             line-height: 11px;
-            font-weight: normal;
+            font-weight: 400;
             color: #5b5757;
         }
 
@@ -59,13 +52,13 @@
             font-weight: 600;
             font-size: 11px;
             line-height: 11px;
-            color: #000000;
+            color: #000;
         }
 
         .bookinginvoice_text_address {
             font-size: 13px;
             line-height: 13px;
-            color: #000000;
+            color: #000;
         }
 
         .bookinginvoice_table {
@@ -78,7 +71,7 @@
             font-weight: 500;
             font-size: 11px;
             line-height: 11px;
-            color: #ffffff;
+            color: #fff;
             padding: 0.9% 3% 0.9% 0;
         }
 
@@ -97,43 +90,15 @@
             font-size: 25px;
             letter-spacing: 0.5px;
             line-height: 30px;
-            color: #ffffff;
+            color: #fff;
             float: right;
             padding: 1%;
-        }
-
-        .bookinginvoice_text_pdetails {
-            background: #0cb0e2;
-            font-weight: bold;
-            font-size: 11px;
-            line-height: 12px;
-            color: #ffffff;
-        }
-
-        .bookinginvoice_text_bdate {
-            background: #0cb0e2;
-            font-weight: bold;
-            font-size: 11px;
-            line-height: 12px;
-            color: #ffffff;
         }
 
         .bookinginvoice_lorem {
             font-size: 10px;
             line-height: 10px;
-            color: #000000;
-        }
-
-        .bookinginvoice_dop {
-            font-weight: 600;
-            font-size: 10px;
-            line-height: 11px;
-            color: #000000;
-        }
-
-        .bookinginvoice_dop_value {
-            font-weight: 300;
-            color: #2b2b2b;
+            color: #000;
         }
 
         .bookinginvoice_bottom {
@@ -142,20 +107,14 @@
             margin-top: 8%;
         }
 
-        .bookinginvoice_bottomtext_terms {
-            font-weight: 600;
-            font-size: 10px;
-            line-height: 16px;
-            color: #292929;
-        }
-
         .bookinginvoice_bottom_terms {
             font-size: 14px;
             line-height: 8px;
-            color: #000000;
+            color: #000;
             width: 70vw;
         }
-        .bookinginvoice_bottom_terms_content{
+
+        .bookinginvoice_bottom_terms_content {
             padding-left: 3px;
             font-size: 10px;
         }
@@ -202,18 +161,14 @@
             padding-left: 1.5rem !important;
         }
 
-        /* .shadow {
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
-        } */
-
         .row {
             --bs-gutter-x: 1.5rem;
             --bs-gutter-y: 0;
             display: flex;
             flex-wrap: wrap;
             margin-top: calc(var(--bs-gutter-y) * -1);
-            margin-right: calc(var(--bs-gutter-x) * -.5);
-            margin-left: calc(var(--bs-gutter-x) * -.5);
+            margin-right: calc(var(--bs-gutter-x) * -0.5);
+            margin-left: calc(var(--bs-gutter-x) * -0.5);
         }
 
         .row>* {
@@ -221,8 +176,8 @@
             flex-shrink: 0;
             width: 100%;
             max-width: 100%;
-            padding-right: calc(var(--bs-gutter-x) * .5);
-            padding-left: calc(var(--bs-gutter-x) * .5);
+            padding-right: calc(var(--bs-gutter-x) * 0.5);
+            padding-left: calc(var(--bs-gutter-x) * 0.5);
             margin-top: var(--bs-gutter-y);
         }
 
@@ -250,20 +205,64 @@
             float: right;
             align-items: center;
             width: 45%;
-
         }
-        .bookingdatehead{
+
+        .bookingdatehead {
             background-color: #0cb0e2;
             font-size: 16px;
-            color: white;
+            color: #fff;
             padding: 2%;
         }
-        .bookingdate{
+
+        .bookingdate {
             font-size: 12px;
             padding: 1%;
-
         }
-    
+
+        @media only screen and (max-width: 600px) {
+
+            .bookinginvoice_text_invdate,
+            .bookinginvoice_text_invno {
+                font-size: 8px;
+            }
+
+            .bookinginvoice_bottom_terms_content,
+            .bookinginvoice_lorem,
+            .bookinginvoice_table tr:nth-child(even) td {
+                font-size: 8px;
+            }
+
+            .bookinginvoicebodytop {
+                margin-bottom: 23%;
+            }
+
+            .bookingdate,
+            .bookinginvoice_table_headers th,
+            .bookinginvoice_text_address,
+            .bookinginvoice_text_billto {
+                font-size: 9px;
+            }
+
+            .bookinginvoice_table_body {
+                font-size: 8px;
+            }
+
+            .bookinginvoice_bottom_terms {
+                font-size: 10px;
+            }
+
+            .bookingdatehead {
+                font-size: 11px;
+            }
+
+            .bookinginvoice_text_binv {
+                font-size: 15px;
+            }
+
+            .bookinginvoice_total {
+                font-size: 16px;
+            }
+        }
     </style>
 </head>
 
@@ -317,7 +316,7 @@
             </div>
             <div class="bookingdatecont p-2 ">
                 <div class="bookingdatehead">Booking Date</div>
-                <div class="bookingdate"><b>from: </b>{{ startFrom }} <b>to:</b> {{ endTo }} </div>
+                <div class="bookingdate"><b>From: </b>{{ startFrom }} <b>To:</b> {{ endTo }} </div>
             </div><br>
             <div class="bookinginvoice_bottom p-2 mb-1">
                 <span class="bookinginvoice_bottom_terms">Terms:</span>
@@ -329,5 +328,4 @@
         </div>
     </div>
 </body>
-
 </html>
