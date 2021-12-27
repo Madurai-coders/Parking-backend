@@ -162,6 +162,8 @@ class GetBusinessPartner(viewsets.ModelViewSet):
     permission_classes = [IsAdminUser]
     queryset = BusinessPartner.objects.all()
     serializer_class = BusinessGroup_Serializer
+    filter_backends = [filters.OrderingFilter]
+    ordering = ('-BusinessPartner_created')
     pagination_class = tenSetPagination
 
 
