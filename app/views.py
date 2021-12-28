@@ -40,7 +40,7 @@ def send_gmail(request):
     messageSent = False
     if request.method == "POST":
 
-        subject = request.POST.get('subject')
+        subject = 'ZenGov Payment'
         message = request.POST.get('message')
         from_mail = settings.EMAIL_HOST_USER  # settings.py
         to_mail = request.POST.get(request.data["to"])  # to must be posted in postman
@@ -78,7 +78,7 @@ def send_gmail_booking(request):
     messageSent = False
     if request.method == "POST":
 
-        subject = request.POST.get('subject')
+        subject = 'ZenGov Booking'
         message = request.POST.get('message')
         from_mail = settings.EMAIL_HOST_USER  # settings.py
         to_mail = request.POST.get(request.data["to"])  # to must be posted in postman
