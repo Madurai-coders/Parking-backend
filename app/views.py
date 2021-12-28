@@ -163,6 +163,8 @@ class GetBusinessPartner(viewsets.ModelViewSet):
     queryset = BusinessPartner.objects.all()
     serializer_class = BusinessGroup_Serializer
     pagination_class = tenSetPagination
+    filter_backends = [filters.OrderingFilter]
+    ordering = ('-BusinessPartner_created')
 
 
 class Check_BusinessPartner(generics.ListAPIView):

@@ -12,11 +12,14 @@
             font-family: sans-serif;
         }
 
+        *{
+            text-transform: capitalize;
+        }
+
         .bookinginvoice_container {
             margin-top: 2vh;
             margin-left: 1vw;
             margin-right: 1vh;
-            height: 100vh;
         }
 
         .bookinginvoice_flex_col {
@@ -240,6 +243,53 @@
             flex: 0 0 auto;
             width: 91.66666667%;
         }
+
+        
+        @media only screen and (max-width: 600px) {
+
+.bookinginvoice_text_invdate,
+.bookinginvoice_text_invno {
+    font-size: 8px;
+}
+
+.bookinginvoice_bottom_terms_content,
+.bookinginvoice_lorem,
+.bookinginvoice_table tr:nth-child(even) td {
+    font-size: 8px;
+}
+
+.bookinginvoicebodytop {
+    margin-bottom: 23%;
+}
+
+.bookingdate,
+.bookinginvoice_table_headers th,
+.bookinginvoice_text_address,
+.bookinginvoice_text_billto {
+    font-size: 7px;
+}
+
+.bookinginvoice_table_body {
+    font-size: 8px;
+}
+
+.bookinginvoice_bottom_terms {
+    font-size: 8px;
+}
+
+.bookingdatehead {
+    font-size: 11px;
+}
+
+.bookinginvoice_text_binv {
+    font-size: 15px;
+}
+
+.bookinginvoice_total {
+    font-size: 16px;
+}
+}
+
     </style>
 </head>
 
@@ -248,7 +298,7 @@
         <div class="bookinginvoice_topsection row">
             <div class="col-7"></div>
             <div class="col-5">
-                <div class="bookinginvoice_text_binv mb-3">Booking Invoice</div>
+                <div class="bookinginvoice_text_binv mb-2">Parking Payment Invoice</div>
                 <div class="bookinginvoice_text_invno mb-1">
                 </div>
                 <div class="bookinginvoice_text_invdate">
@@ -283,16 +333,16 @@
                     </tr>
                 </table>
                 <div class="bookinginvoice_total">
-                    {{ amount }}
+                    {{ amount }} $
                 </div>
             </div>
-                <div class="bookinginvoice_bottom p-2 mb-1">                   
+                <!-- <div class="bookinginvoice_bottom p-2 mb-1">                   
                         <span class="bookinginvoice_bottom">Terms:</span>
                         <span class="bookinginvoice_bottom_terms">
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare
                             placerat condimentum venenatis diam ipsum urna, arcu nibh elit.
                         </span>               
-                </div>
+                </div> -->
         </div>
     </div>
 </body>
