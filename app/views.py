@@ -141,7 +141,7 @@ class AdminCheckAPI(generics.ListAPIView):
 
     def get_queryset(self):
         queryset = self.queryset
-        query_set = queryset.all()  # filter(id=self.request.user.id)
+        query_set = queryset.all().filter(id=self.request.user.id)
         return query_set
 
 
