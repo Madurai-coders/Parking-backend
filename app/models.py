@@ -25,6 +25,9 @@ class Payment(models.Model):
     amount = models.IntegerField()
     paymentDateTime_auto = models.DateTimeField(auto_now=True,blank=True, null=True)
 
+    class Meta:
+        ordering = ['-paymentDate']
+
     def __str__(self):
         return str(self.paymentId)
 
@@ -65,6 +68,9 @@ class Booking(models.Model):
     slot_connect = models.ForeignKey(Slots,on_delete=models.CASCADE,related_name='slots')
     plan = models.CharField(max_length=120)   #plan weekly, monthly, quaterly, yearly
     charge = models.CharField(max_length=120)  
+
+    class Meta:
+        ordering = ['-date_auto']
 
     def __str__(self):
         return str(self.bookingId)
