@@ -38,6 +38,7 @@ class Wing(models.Model): #slot a,b,c
     wingName = models.CharField(max_length=100) 
     wingCount = models.IntegerField() #slot A, slot B
     wingStatus = models.BooleanField()
+    planDaily = models.IntegerField(default=0)
     planWeekly = models.IntegerField()
     planMonthly = models.IntegerField()
     planQuarterly = models.IntegerField()

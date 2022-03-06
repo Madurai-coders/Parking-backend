@@ -237,6 +237,22 @@ class GetPayment(generics.ListAPIView):
     pagination = tenSetPagination
 
 
+class GetPaymentbyDate(viewsets.ModelViewSet):
+    queryset = Payment.objects.all()
+    serializer_class = PaymentSerializer
+    permission_classes = [IsAdminUser]
+
+
+    def get_queryset(self):
+        queryset = self.queryset
+        from_date = self.request.query_params.get('from')
+        to_date = self.request.query_params.get('to')
+        print(from_date)
+        query_set = queryset.filter(
+            paymentDate__range=[from_date, to_date]).order_by('-paymentDate')
+        return query_set
+
+
 class CreateBooking(viewsets.ModelViewSet):
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
@@ -303,6 +319,7 @@ class GetWing(generics.ListAPIView):
 class Inactiveslots(viewsets.ModelViewSet):
     queryset = Slots.objects.all()
     serializer_class = SlotSerializer
+    ordering = ('-date_auto')
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
 
     def get_queryset(self):

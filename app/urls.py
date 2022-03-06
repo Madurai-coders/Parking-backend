@@ -1,4 +1,4 @@
-from .views import send_gmail, send_gmail_booking,CreateOnlinePayment, UserLogin,GetUserAccount, GetBookingByDate,SlotCount,AdminCheckAPI,GetBooking,Booked_slots,BusinessPartner_Group,GetBusinessPartner, test,Inactiveslots, GetPayment,GetWing,CreateSlots,CreateWing, CreatePayment,Check_BusinessPartner, CreateBusinessPartner,UserCreateAPIView, CreateBooking
+from .views import send_gmail, send_gmail_booking,CreateOnlinePayment, GetPaymentbyDate,UserLogin,GetUserAccount, GetBookingByDate,SlotCount,AdminCheckAPI,GetBooking,Booked_slots,BusinessPartner_Group,GetBusinessPartner, test,Inactiveslots, GetPayment,GetWing,CreateSlots,CreateWing, CreatePayment,Check_BusinessPartner, CreateBusinessPartner,UserCreateAPIView, CreateBooking
 from rest_framework.routers import DefaultRouter
 from django.urls import path, include
 
@@ -10,6 +10,7 @@ router.register('CreateWing', CreateWing, basename='wing')
 router.register('CreateSlots', CreateSlots, basename='slots')
 router.register('Inactiveslots', Inactiveslots, basename='Inactive')
 router.register('GetBooking', GetBooking, basename='GetBooking')
+router.register('GetPaymentbyDate', GetPaymentbyDate, basename='GetPaymentbyDate')
 router.register('GetBookingByDate', GetBookingByDate, basename='GetBookingByDate')
 router.register('BusinessPartner_Group', BusinessPartner_Group, basename='BusinessPartner_Group')
 router.register('GetBusinessPartner', GetBusinessPartner, basename='GetBusinessPartner')
