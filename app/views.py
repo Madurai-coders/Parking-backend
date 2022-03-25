@@ -11,7 +11,7 @@ from rest_framework import filters
 from .pagination import SmallSetPagination, tenSetPagination, fourSetPagination
 from rest_framework import status
 
-from django.core.mail import send_mail
+from django.core.mail import send_mail,EmailMessage
 from django.conf import settings
 from django.template import loader
 from django.template.loader import render_to_string
@@ -114,7 +114,18 @@ def send_gmail_booking(request):
     else:
         return Response({"sent": messageSent})
 
-
+@api_view(['GET', 'POST'])
+@permission_classes([IsAdminUser])
+def email_with_attachment(request,*args,**kwargs):
+    if request.method == "POST":
+# file_path = os.path.abspath('media/bg-2.jpg')
+        print(request.data["to"])
+        msg = EmailMessage(request.data["name"],
+                       'Check the attachment', to=[request.data["to"]])
+        msg.attach('invoice.csv', request.data["csv"], 'text/csv')
+        msg.send()
+        
+        return Response('true')
 
 
 class UserCreateAPIView(generics.CreateAPIView):
