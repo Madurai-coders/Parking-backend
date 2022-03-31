@@ -2,7 +2,7 @@ from django.core.exceptions import FieldError
 from django.db import models
 from django.db.models import fields
 from rest_framework import serializers
-from .models import Booking, BusinessPartner, Payment, Slots, User, Wing
+from .models import Booking, BusinessPartner, Payment, Slots, User, Wing,Table_data
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -28,6 +28,13 @@ class AdminCheckSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id','is_staff']
+
+
+class TableDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Table_data
+        fields = '__all__'
+
 
 
 

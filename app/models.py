@@ -76,3 +76,10 @@ class Booking(models.Model):
     def __str__(self):
         return str(self.bookingId)
 
+
+class Table_data(models.Model):
+    table_name = models.CharField(max_length=120)
+    table_data = models.CharField(max_length=120,null=True)
+    
+    def __str__(self):
+        return str(self.table_name)

@@ -1,10 +1,11 @@
-from .views import send_gmail, send_gmail_booking,CreateOnlinePayment,email_with_attachment, GetPaymentbyDate,UserLogin,GetUserAccount, GetBookingByDate,SlotCount,AdminCheckAPI,GetBooking,Booked_slots,BusinessPartner_Group,GetBusinessPartner, test,Inactiveslots, GetPayment,GetWing,CreateSlots,CreateWing, CreatePayment,Check_BusinessPartner, CreateBusinessPartner,UserCreateAPIView, CreateBooking
+from .views import send_gmail, send_gmail_booking,CreateOnlinePayment,email_with_attachment,TableData, GetPaymentbyDate,UserLogin,GetUserAccount, GetBookingByDate,SlotCount,AdminCheckAPI,GetBooking,Booked_slots,BusinessPartner_Group,GetBusinessPartner, test,Inactiveslots, GetPayment,GetWing,CreateSlots,CreateWing, CreatePayment,Check_BusinessPartner, CreateBusinessPartner,UserCreateAPIView, CreateBooking
 from rest_framework.routers import DefaultRouter
 from django.urls import path, include
 
 router = DefaultRouter()
 router.register('CreateBusinessPartner', CreateBusinessPartner, basename='data')
 router.register('CreatePayment', CreatePayment, basename='pay')
+router.register('TableData', TableData, basename='TableData')
 router.register('CreateBooking', CreateBooking, basename='book')
 router.register('CreateWing', CreateWing, basename='wing')
 router.register('CreateSlots', CreateSlots, basename='slots')

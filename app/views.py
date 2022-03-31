@@ -1,3 +1,4 @@
+from cgitb import lookup
 from django.db import models
 from django.db.models.query import QuerySet
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
@@ -5,8 +6,8 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework import pagination, serializers, viewsets, generics
-from .models import Booking, BusinessPartner, Payment, User, Slots, Wing
-from .serializers import GetUserSerializer, PaymentSerializer, BusinessGroup_Serializer, UserSerializer, wingSlotSerializer, SlotSerializer, BusinessSerializer, BookingSerializer, AdminCheckSerializer
+from .models import Booking, BusinessPartner, Payment, User, Slots, Wing,Table_data
+from .serializers import GetUserSerializer, TableDataSerializer, PaymentSerializer, BusinessGroup_Serializer, UserSerializer, wingSlotSerializer, SlotSerializer, BusinessSerializer, BookingSerializer, AdminCheckSerializer
 from rest_framework import filters
 from .pagination import SmallSetPagination, tenSetPagination, fourSetPagination
 from rest_framework import status
@@ -161,6 +162,11 @@ class CreatePayment(viewsets.ModelViewSet):
     serializer_class = PaymentSerializer
     permission_classes = [IsAdminUser]
 
+class TableData(viewsets.ModelViewSet):
+    queryset = Table_data.objects.all()
+    serializer_class = TableDataSerializer
+    permission_classes = [IsAdminUser]
+    lookup_field='table_name'
 
 
 class CreateBusinessPartner(viewsets.ModelViewSet):
