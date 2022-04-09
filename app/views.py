@@ -122,10 +122,9 @@ def email_with_attachment(request,*args,**kwargs):
 # file_path = os.path.abspath('media/bg-2.jpg')
         print(request.data["to"])
         msg = EmailMessage(request.data["name"],
-                       'Check the attachment', to=[request.data["to"]])
-        msg.attach('invoice.csv', request.data["csv"], 'text/csv')
+                       request.data["description"], to=[request.data["to"]])
+        msg.attach('ZenGov_Parking_data.csv', request.data["csv"], 'text/csv')
         msg.send()
-        
         return Response('true')
 
 
