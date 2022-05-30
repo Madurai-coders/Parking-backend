@@ -13,6 +13,9 @@ class BusinessPartner(models.Model):
     email = models.EmailField()
     accountHolder = models.OneToOneField(User, blank=True, null=True, on_delete=models.CASCADE ,related_name='useraccount')
     BusinessPartner_created = models.DateTimeField(auto_now=True)
+    # verificationStatus=models.BooleanField(default='false')
+    # mobileNumber=models.CharField(max_length=12)
+    
     def __str__(self):
         return str(self.userName)
 
@@ -75,6 +78,21 @@ class Booking(models.Model):
 
     def __str__(self):
         return str(self.bookingId)
+
+
+class CarInfo(models.Model):
+    bookingId = models.OneToOneField(Booking,on_delete=models.CASCADE ,related_name='booking_link')
+    license = models.CharField(max_length=120)
+    make = models.CharField(max_length=120)
+    model = models.IntegerField()
+    carRegistrationState = models.CharField(max_length=120)
+    color = models.CharField(max_length=120)
+    insurance = models.CharField(max_length=120)
+    permitYear = models.CharField(max_length=120)
+  
+    
+    def __str__(self):
+        return str(self.license)
 
 
 class Table_data(models.Model):

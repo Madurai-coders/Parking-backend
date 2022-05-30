@@ -1,3 +1,5 @@
+from django.http import HttpResponse
+import datetime
 from cgitb import lookup
 from django.db import models
 from django.db.models.query import QuerySet
@@ -6,13 +8,13 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework import pagination, serializers, viewsets, generics
-from .models import Booking, BusinessPartner, Payment, User, Slots, Wing,Table_data
-from .serializers import GetUserSerializer, TableDataSerializer, PaymentSerializer, BusinessGroup_Serializer, UserSerializer, wingSlotSerializer, SlotSerializer, BusinessSerializer, BookingSerializer, AdminCheckSerializer
+from .models import Booking, BusinessPartner, Payment, User, Slots, Wing, Table_data,CarInfo
+from .serializers import GetUserSerializer, TableDataSerializer,CarInfoSerializer,PaymentSerializer,UserSerializer_verified,BusinessGroup_Serializer, UserSerializer, wingSlotSerializer, SlotSerializer, BusinessSerializer, BookingSerializer, AdminCheckSerializer
 from rest_framework import filters
 from .pagination import SmallSetPagination, tenSetPagination, fourSetPagination
 from rest_framework import status
 
-from django.core.mail import send_mail,EmailMessage
+from django.core.mail import send_mail, EmailMessage
 from django.conf import settings
 from django.template import loader
 from django.template.loader import render_to_string
@@ -44,7 +46,8 @@ def send_gmail(request):
         subject = 'ZenGov Payment'
         message = request.POST.get('message')
         from_mail = settings.EMAIL_HOST_USER  # settings.py
-        to_mail = request.POST.get(request.data["to"])  # to must be posted in postman
+        # to must be posted in postman
+        to_mail = request.POST.get(request.data["to"])
 
         msg_html = loader.render_to_string('index.html', {
 
@@ -53,7 +56,7 @@ def send_gmail(request):
             'user': request.data["user"],
             'accountNumber': request.data["accountNumber"],
             'paymentId': request.data["paymentId"],
-            'amount':request.data["amount"],
+            'amount': request.data["amount"],
         })
 
         send_mail(
@@ -70,6 +73,77 @@ def send_gmail(request):
 
     else:
         return Response({"sent": messageSent})
+
+
+# @api_view(['PUT','GET'])
+# @permission_classes([AllowAny])
+def verification_email(request,user_name,mobile_number):
+    print(user_name)
+    now = datetime.datetime.now()
+    msg = f'Today is {now}'
+    return HttpResponse(msg, content_type='text/plain')
+    # queryset = BusinessPartner.objects.all()
+    # serializer = BusinessGroup_Serializer(queryset, many=True)
+    # serializer.data
+
+
+from django.http import HttpResponse  
+from django.shortcuts import render, redirect  
+from django.contrib.auth import login, authenticate  
+from django.contrib.sites.shortcuts import get_current_site  
+from django.utils.encoding import force_bytes, force_text  
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode  
+from django.template.loader import render_to_string  
+from .token import account_activation_token  
+from django.contrib.auth.models import User  
+from django.core.mail import EmailMessage  
+from .models import  User
+ 
+
+def activate(request, uidb64, token):  
+    try:  
+        uid = force_text(urlsafe_base64_decode(uidb64))  
+        user = User.objects.get(pk=uid)  
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):  
+        user = None  
+    if user is not None and account_activation_token.check_token(user, token):  
+        user.is_active = True  
+        user.save()  
+        return render(request, "verificationSuccessful.html") 
+    else:  
+        return HttpResponse('Activation link is invalid!')  
+
+
+
+# @api_view(['GET', 'POST'])
+# @permission_classes([AllowAny])
+# def send_verification_email(request):
+#     print(request.data["to"])
+#     messageSent = False
+#     if request.method == "POST":
+
+#         subject = 'ZenGov Payment'
+#         message = request.POST.get('message')
+#         from_mail = settings.EMAIL_HOST_USER
+#         to_mail = request.POST.get(request.data["to"])
+#         msg_html = loader.render_to_string('verifyemail.html', {
+#             'link': request.data["link"],
+#         })
+
+#         send_mail(
+#             subject,
+#             message,
+#             from_mail,
+#             [request.data["to"]],
+#             fail_silently=False,
+#             html_message=msg_html,
+#         )
+#         messageSent = True
+
+#         return Response({"sent": messageSent})
+
+#     else:
+#         return Response({"sent": messageSent})
 
 
 @api_view(['GET', 'POST'])
@@ -82,7 +156,8 @@ def send_gmail_booking(request):
         subject = 'ZenGov Booking'
         message = request.POST.get('message')
         from_mail = settings.EMAIL_HOST_USER  # settings.py
-        to_mail = request.POST.get(request.data["to"])  # to must be posted in postman
+        # to must be posted in postman
+        to_mail = request.POST.get(request.data["to"])
 
         msg_html = loader.render_to_string('email.html', {
 
@@ -91,13 +166,13 @@ def send_gmail_booking(request):
             'user': request.data["user"],
             'accountNumber': request.data["accountNumber"],
             'bookingId': request.data["bookingId"],
-            'amount':request.data["amount"],
-            'startFrom':request.data["startFrom"],
-            'endTo':request.data["endTo"],
-            'wing':request.data["wing"],
-            'slot':request.data["slot"],
-            'plan':request.data["plan"],
-            'id':request.data["id"],
+            'amount': request.data["amount"],
+            'startFrom': request.data["startFrom"],
+            'endTo': request.data["endTo"],
+            'wing': request.data["wing"],
+            'slot': request.data["slot"],
+            'plan': request.data["plan"],
+            'id': request.data["id"],
         })
 
         send_mail(
@@ -115,14 +190,15 @@ def send_gmail_booking(request):
     else:
         return Response({"sent": messageSent})
 
+
 @api_view(['GET', 'POST'])
 @permission_classes([IsAdminUser])
-def email_with_attachment(request,*args,**kwargs):
+def email_with_attachment(request, *args, **kwargs):
     if request.method == "POST":
-# file_path = os.path.abspath('media/bg-2.jpg')
+        # file_path = os.path.abspath('media/bg-2.jpg')
         print(request.data["to"])
         msg = EmailMessage(request.data["name"],
-                       request.data["description"], to=[request.data["to"]])
+                           request.data["description"], to=[request.data["to"]])
         msg.attach('ZenGov_Parking_data.csv', request.data["csv"], 'text/csv')
         msg.send()
         return Response('true')
@@ -132,6 +208,18 @@ class UserCreateAPIView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (AllowAny,)
+
+class UserCreateAPIViewVerified(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer_verified
+    permission_classes = (AllowAny,)
+    
+ 
+class CarInfoView(generics.CreateAPIView):
+    queryset = CarInfo.objects.all()
+    serializer_class = CarInfoSerializer
+    permission_classes = (AllowAny,)
+    
 
 
 class GetUserAccount(generics.ListAPIView):
@@ -159,17 +247,18 @@ class AdminCheckAPI(generics.ListAPIView):
 class CreatePayment(viewsets.ModelViewSet):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAuthenticated]
+
 
 class TableData(viewsets.ModelViewSet):
     queryset = Table_data.objects.all()
     serializer_class = TableDataSerializer
     permission_classes = [IsAdminUser]
-    lookup_field='table_name'
+    lookup_field = 'table_name'
 
 
 class CreateBusinessPartner(viewsets.ModelViewSet):
-    permission_classes = [IsAdminUser]
+    permission_classes = [AllowAny]
     queryset = BusinessPartner.objects.all()
     serializer_class = BusinessSerializer
 
@@ -206,14 +295,11 @@ class BusinessPartner_Group(viewsets.ModelViewSet):
 class UserLogin(generics.ListAPIView):
     queryset = BusinessPartner.objects.all()
     serializer_class = BusinessGroup_Serializer
-    permission_classes = (AllowAny,)
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         queryset = self.queryset
-        username = self.request.query_params.get('username')
-        accountnumber = self.request.query_params.get('accountnumber')
-        query_set = queryset.filter(
-            userName=username, accountNumber=accountnumber)
+        query_set = queryset.filter(accountHolder=self.request.user.id)
         return query_set
 
 # ------------------------------------------------------------------------------------------------------------------
@@ -226,15 +312,14 @@ class CreatePayment(viewsets.ModelViewSet):
     lookup_field = 'id'
     filter_backends = [filters.OrderingFilter]
     ordering = ('-paymentDate')
-    permission_classes=[IsAdminUser]
-
+    permission_classes = [IsAuthenticated]
 
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def CreateOnlinePayment(request):
     if request.method == 'POST':
-        if request.data["secretKey"]=='9401f9e0-6596-11ec-bd15-8d09a4545895':
+        if request.data["secretKey"] == '9401f9e0-6596-11ec-bd15-8d09a4545895':
             serializer = PaymentSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
@@ -242,11 +327,10 @@ def CreateOnlinePayment(request):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-
 class GetPayment(generics.ListAPIView):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAuthenticated]
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['paymentId', 'userId__userName', ]
     ordering = ('-paymentDate')
@@ -257,7 +341,6 @@ class GetPaymentbyDate(viewsets.ModelViewSet):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
     permission_classes = [IsAdminUser]
-
 
     def get_queryset(self):
         queryset = self.queryset
@@ -274,15 +357,13 @@ class CreateBooking(viewsets.ModelViewSet):
     serializer_class = BookingSerializer
     filter_backends = [filters.OrderingFilter]
     ordering = ('-date_auto')
-    permission_classes = [IsAdminUser]
-
+    permission_classes = [IsAuthenticated]
 
 
 class GetBooking(viewsets.ModelViewSet):
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
-    permission_classes = [IsAdminUser]
-
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         queryset = self.queryset
@@ -301,7 +382,6 @@ class GetBookingByDate(viewsets.ModelViewSet):
     ordering = ('-date_auto')
     permission_classes = [IsAdminUser]
 
-
     def get_queryset(self):
         queryset = self.queryset
         from_date = self.request.query_params.get('from')
@@ -315,7 +395,7 @@ class GetBookingByDate(viewsets.ModelViewSet):
 class CreateWing(viewsets.ModelViewSet):
     queryset = Wing.objects.all()
     serializer_class = wingSlotSerializer
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAuthenticated]
 
 
 class CreateSlots(viewsets.ModelViewSet):
@@ -348,7 +428,6 @@ class Booked_slots(generics.ListAPIView):
     queryset = Slots.objects.all()
     serializer_class = SlotSerializer
     permission_classes = [IsAdminUser]
-
 
     def get_queryset(self):
         queryset = self.queryset
