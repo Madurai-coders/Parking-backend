@@ -28,7 +28,7 @@ def test(request):
 
 
 @api_view()
-@permission_classes([AllowAny])
+@permission_classes([IsAuthenticated])
 def SlotCount(request):
     total = Slots.objects.count()
     active = Slots.objects.filter(slotStatus=True).count()
@@ -37,7 +37,7 @@ def SlotCount(request):
 
 
 @api_view(['GET', 'POST'])
-@permission_classes([AllowAny])
+@permission_classes([IsAuthenticated])
 def send_gmail(request):
     print(request.data["to"])
     messageSent = False
@@ -147,7 +147,7 @@ def activate(request, uidb64, token):
 
 
 @api_view(['GET', 'POST'])
-@permission_classes([AllowAny])
+@permission_classes([IsAuthenticated])
 def send_gmail_booking(request):
     print(request.data["to"])
     messageSent = False
@@ -218,7 +218,7 @@ class UserCreateAPIViewVerified(generics.CreateAPIView):
 class CarInfoView(generics.CreateAPIView):
     queryset = CarInfo.objects.all()
     serializer_class = CarInfoSerializer
-    permission_classes = (AllowAny,)
+    permission_classes = [IsAuthenticated]
     
 
 
@@ -258,10 +258,10 @@ class TableData(viewsets.ModelViewSet):
 
 
 class CreateBusinessPartner(viewsets.ModelViewSet):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     queryset = BusinessPartner.objects.all()
     serializer_class = BusinessSerializer
-
+    permission_classes = [IsAuthenticated]
 
 class GetBusinessPartner(viewsets.ModelViewSet):
     permission_classes = [IsAdminUser]
@@ -316,7 +316,7 @@ class CreatePayment(viewsets.ModelViewSet):
 
 
 @api_view(['POST'])
-@permission_classes([AllowAny])
+@permission_classes([IsAuthenticated])
 def CreateOnlinePayment(request):
     if request.method == 'POST':
         if request.data["secretKey"] == '9401f9e0-6596-11ec-bd15-8d09a4545895':
