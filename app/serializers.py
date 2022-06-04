@@ -84,7 +84,7 @@ class BusinessSerializer(serializers.ModelSerializer):
     class Meta:
         model = BusinessPartner
         fields = ['id', 'uId', 'accountNumber', 'userName',
-                  'lastName', 'email', 'accountHolder']
+                  'lastName', 'email', 'accountHolder','mobileNumber']
 
         # must be serializers.ModelSerializer not serializers.Serializer
 
@@ -145,7 +145,7 @@ class BusinessGroup_Serializer(serializers.ModelSerializer):
     class Meta:
         model = BusinessPartner
         fields = ['id', 'uId', 'accountNumber', 'userName',
-                  'lastName', 'email', 'payment_partner', 'booking_partner']
+                  'lastName', 'email', 'payment_partner', 'booking_partner','mobileNumber']
         depth = 1
 
 
