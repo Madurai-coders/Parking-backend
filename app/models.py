@@ -24,6 +24,8 @@ class Payment(models.Model):
     paymentId = models.CharField(max_length=120)
     paymentType = models.CharField(max_length=100)
     paymentDate = models.CharField(max_length=100)
+    Status = models.CharField(max_length=100,default='failed')
+    key = models.CharField(max_length=100,default='fai-led')
     amount = models.IntegerField()
     paymentDateTime_auto = models.DateTimeField(auto_now=True,blank=True, null=True)
 
@@ -94,9 +96,53 @@ class CarInfo(models.Model):
         return str(self.license)
 
 
+class BookingTemp(models.Model):
+    userId = models.ForeignKey(BusinessPartner, on_delete=models.CASCADE,)
+    bookingId = models.CharField(max_length=120)
+    date_auto = models.DateTimeField(auto_now=True)
+    date = models.CharField(max_length=120)
+    startFrom = models.CharField(max_length=120)
+    endTo = models.CharField(max_length=120)
+    slotid = models.CharField(max_length=120)
+    slot_connect = models.ForeignKey(Slots,on_delete=models.CASCADE)
+    plan = models.CharField(max_length=120)   #plan weekly, monthly, quaterly, yearly
+    charge = models.CharField(max_length=120)  
+    key = models.CharField(max_length=120)  
+
+    class Meta:
+        ordering = ['-date_auto']
+
+    def __str__(self):
+        return str(self.bookingId)
+
+
+class CarInfoTemp(models.Model):
+    bookingId = models.OneToOneField(BookingTemp,on_delete=models.CASCADE)
+    license = models.CharField(max_length=120)
+    make = models.CharField(max_length=120)
+    model = models.IntegerField()
+    carRegistrationState = models.CharField(max_length=120)
+    color = models.CharField(max_length=120)
+    insurance = models.CharField(max_length=120)
+    permitYear = models.CharField(max_length=120)
+    key = models.CharField(max_length=120)  
+
+  
+    
+    def __str__(self):
+        return str(self.license)
+
+
 class Table_data(models.Model):
     table_name = models.CharField(max_length=120)
     table_data = models.CharField(max_length=120,null=True)
     
     def __str__(self):
         return str(self.table_name)
+
+class PaymentEndpoint(models.Model):
+    status = models.CharField(max_length=120)
+    transNum = models.CharField(max_length=120,null=True)
+    serviceType = models.CharField(max_length=120,null=True)
+    def __str__(self):
+        return str(self.transNum)

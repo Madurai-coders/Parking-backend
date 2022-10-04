@@ -6,12 +6,12 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.template import loader
 from django.conf import settings
 from django.core.mail import send_mail
-from .models import User
+from .models import BookingTemp, User
 from django.core.exceptions import FieldError
 from django.db import models
 from django.db.models import fields
 from rest_framework import serializers
-from .models import Booking, BusinessPartner, Payment, Slots, User, Wing, Table_data, CarInfo
+from .models import Booking, BusinessPartner, Payment, Slots, User, Wing, Table_data, CarInfo,CarInfoTemp,BookingTemp,PaymentEndpoint
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -95,7 +95,7 @@ class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payment
         fields = ['id', 'userId', 'paymentId', 'amount',
-                  'paymentType', 'paymentDate', 'User']
+                  'paymentType', 'paymentDate', 'User','Status','key']
 
 
 class WingSerializer(serializers.ModelSerializer):
@@ -125,6 +125,24 @@ class CarInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = CarInfo
         fields = '__all__'
+
+
+class CarInfoTempSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CarInfoTemp
+        fields = '__all__'
+
+class BookingTempSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BookingTemp
+        fields = '__all__'
+
+
+class PaymentEndpointSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PaymentEndpoint
+        fields = '__all__'
+
 
 
 class BookingSerializer(serializers.ModelSerializer):

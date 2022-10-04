@@ -1,8 +1,11 @@
-from .views import send_gmail,CarInfoView, send_gmail_booking,CreateOnlinePayment,email_with_attachment,verification_email,activate,UserCreateAPIViewVerified,TableData, GetPaymentbyDate,UserLogin,GetUserAccount, GetBookingByDate,SlotCount,AdminCheckAPI,GetBooking,Booked_slots,BusinessPartner_Group,GetBusinessPartner, test,Inactiveslots, GetPayment,GetWing,CreateSlots,CreateWing, CreatePayment,Check_BusinessPartner, CreateBusinessPartner,UserCreateAPIView, CreateBooking
+from .views import send_gmail,CarInfoView,PaymentEndpointView,BookingTempView,CarInfoTempView, send_gmail_booking,CreateOnlinePayment,email_with_attachment,verification_email,activate,UserCreateAPIViewVerified,TableData, GetPaymentbyDate,UserLogin,GetUserAccount, GetBookingByDate,SlotCount,AdminCheckAPI,GetBooking,Booked_slots,BusinessPartner_Group,GetBusinessPartner, test,Inactiveslots, GetPayment,GetWing,CreateSlots,CreateWing, CreatePayment,Check_BusinessPartner, CreateBusinessPartner,UserCreateAPIView, CreateBooking
 from rest_framework.routers import DefaultRouter
 from django.urls import path, include
 
 router = DefaultRouter()
+router.register('PaymentEndpoint', PaymentEndpointView, basename='PaymentEndpoint')
+router.register('BookingTemp', BookingTempView, basename='BookingTemp')
+router.register('CarInfoTemp', CarInfoTempView, basename='CarInfoTemm')
 router.register('CreateBusinessPartner', CreateBusinessPartner, basename='data')
 router.register('CreatePayment', CreatePayment, basename='pay')
 router.register('TableData', TableData, basename='TableData')

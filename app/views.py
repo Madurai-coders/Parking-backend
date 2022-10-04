@@ -8,8 +8,8 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework import pagination, serializers, viewsets, generics
-from .models import Booking, BusinessPartner, Payment, User, Slots, Wing, Table_data,CarInfo
-from .serializers import GetUserSerializer, TableDataSerializer,CarInfoSerializer,PaymentSerializer,UserSerializer_verified,BusinessGroup_Serializer, UserSerializer, wingSlotSerializer, SlotSerializer, BusinessSerializer, BookingSerializer, AdminCheckSerializer
+from .models import Booking, BusinessPartner, Payment, User, Slots, Wing, Table_data,CarInfo,CarInfoTemp,BookingTemp,PaymentEndpoint
+from .serializers import GetUserSerializer,PaymentEndpointSerializer,TableDataSerializer,CarInfoTempSerializer,BookingTempSerializer,CarInfoSerializer,PaymentSerializer,UserSerializer_verified,BusinessGroup_Serializer, UserSerializer, wingSlotSerializer, SlotSerializer, BusinessSerializer, BookingSerializer, AdminCheckSerializer
 from rest_framework import filters
 from .pagination import SmallSetPagination, tenSetPagination, fourSetPagination
 from rest_framework import status
@@ -220,8 +220,25 @@ class CarInfoView(generics.CreateAPIView):
     serializer_class = CarInfoSerializer
     permission_classes = [IsAuthenticated]
     
+class CarInfoTempView(viewsets.ModelViewSet):
+    queryset = CarInfoTemp.objects.all()
+    serializer_class = CarInfoTempSerializer
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'key'
 
-
+    
+class BookingTempView(viewsets.ModelViewSet):
+    queryset = BookingTemp.objects.all()
+    serializer_class = BookingTempSerializer
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'key'
+    
+class PaymentEndpointView(viewsets.ModelViewSet):
+    queryset = PaymentEndpoint.objects.all()
+    serializer_class = PaymentEndpointSerializer
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'transNum'
+    
 class GetUserAccount(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = GetUserSerializer
