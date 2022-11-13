@@ -50,7 +50,7 @@ class UserSerializer_verified(serializers.ModelSerializer):
         # to must be posted in postman
         msg_html = loader.render_to_string('verifyemail.html', {
             'user': user.first_name,
-            'domain': 'http://127.0.0.1:8000',
+            'domain': 'http://parkingdev.munidex.info:8000',
             'uid': urlsafe_base64_encode(force_bytes(user.pk)),
             'token': account_activation_token.make_token(user),
         })
