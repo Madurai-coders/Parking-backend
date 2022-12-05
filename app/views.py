@@ -236,7 +236,7 @@ class BookingTempView(viewsets.ModelViewSet):
 class PaymentEndpointView(viewsets.ModelViewSet):
     queryset = PaymentEndpoint.objects.all()
     serializer_class = PaymentEndpointSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     lookup_field = 'transNum'
     
 class GetUserAccount(generics.ListAPIView):

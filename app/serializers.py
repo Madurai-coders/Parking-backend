@@ -34,7 +34,7 @@ class UserSerializer_verified(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('username', 'email', 'password',
-                  'is_staff', 'id', 'is_active', 'first_name')
+                  'is_staff', 'id', 'is_active', 'first_name','last_name')
 
     def create(self, validated_data):
         print(validated_data)
