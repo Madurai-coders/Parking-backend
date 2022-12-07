@@ -198,7 +198,7 @@ def email_with_attachment(request, *args, **kwargs):
         # file_path = os.path.abspath('media/bg-2.jpg')
         print(request.data["to"])
         msg = EmailMessage(request.data["name"],
-                           request.data["description"], to=[request.data["to"]])
+                           request.data["description"],'kaamil@larangel.com',to=[request.data["to"]])
         msg.attach('ZenGov_Parking_data.csv', request.data["csv"], 'text/csv')
         msg.send()
         return Response('true')
@@ -236,7 +236,7 @@ class BookingTempView(viewsets.ModelViewSet):
 class PaymentEndpointView(viewsets.ModelViewSet):
     queryset = PaymentEndpoint.objects.all()
     serializer_class = PaymentEndpointSerializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     lookup_field = 'transNum'
     
 class GetUserAccount(generics.ListAPIView):
@@ -275,7 +275,6 @@ class TableData(viewsets.ModelViewSet):
 
 
 class CreateBusinessPartner(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
     queryset = BusinessPartner.objects.all()
     serializer_class = BusinessSerializer
     permission_classes = [IsAuthenticated]
@@ -316,6 +315,7 @@ class UserLogin(generics.ListAPIView):
 
     def get_queryset(self):
         queryset = self.queryset
+        print(self.request.user.id)
         query_set = queryset.filter(accountHolder=self.request.user.id)
         return query_set
 

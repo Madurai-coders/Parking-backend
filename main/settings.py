@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     "corsheaders",
+
     'app'
 ]
 
@@ -166,7 +167,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-
+import environ
+# Initialise environment variables
+env = environ.Env()
+environ.Env.read_env()
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -175,6 +179,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.hostinger.com'
 EMAIL_PORT = '587'
-EMAIL_HOST_USER = 'test@larangel.com'
-EMAIL_HOST_PASSWORD = 'Sujitha312@'
+EMAIL_HOST_USER = env('MAIL_KEY')
+EMAIL_HOST_PASSWORD = env('SECRET_KEY')
 EMAIL_USE_TSL = True
